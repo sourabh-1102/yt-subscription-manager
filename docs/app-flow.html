@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>App flow</title>
+<style>
+  :root {
+    --bg: #0e1112; --surface: #161a1b; --surface-2: #1d2223; --line: #2a3133;
+    --ink: #ececf1; --ink-2: #a8a8b3; --ink-3: #74747f;
+    --accent: #2cc2b0; --accent-soft: #12302c; --warn: #f0a843; --danger: #ff6b6b;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font: 15px/1.45 system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    padding: 48px 56px 56px; width: 2280px;
+  }
+  header { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 36px; }
+  h1 { margin: 0; font-size: 34px; letter-spacing: -0.02em; }
+  h1 .logo { display: inline-flex; width: 40px; height: 40px; border-radius: 10px; background: var(--accent); color: #06201d;
+    align-items: center; justify-content: center; font-size: 22px; margin-right: 12px; vertical-align: -6px; }
+  header p { margin: 6px 0 0; color: var(--ink-2); font-size: 17px; }
+  .legend { display: flex; gap: 18px; color: var(--ink-2); font-size: 14px; }
+  .legend span { display: inline-flex; align-items: center; gap: 8px; }
+  .dot { width: 10px; height: 10px; border-radius: 50%; }
+
+  .flow { display: grid; grid-template-columns: 210px 1fr; row-gap: 26px; position: relative; }
+  /* vertical spine from the hub to every lane */
+  .spine { position: absolute; left: 104px; top: 40px; bottom: 60px; width: 2px; background: linear-gradient(var(--accent), var(--line)); }
+
+  .lane-label {
+    position: relative; z-index: 1; align-self: center; margin-right: 22px;
+    background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px;
+  }
+  .lane-label .ico { font-size: 24px; }
+  .lane-label b { display: block; margin-top: 4px; font-size: 16px; }
+  .lane-label small { color: var(--ink-3); font-size: 12.5px; }
+  .lane-label.hub { border-color: var(--accent); background: var(--accent-soft); }
+
+  .lane { display: flex; align-items: center; gap: 0; padding: 18px 20px; border-radius: 18px; border: 1px solid var(--line); background: rgba(29,34,35,.45); }
+  .lane.hub { border-color: rgba(44,194,176,.45); }
+
+  .card { width: 344px; flex: none; }
+  .card .frame { position: relative; border-radius: 12px; overflow: hidden; border: 1px solid var(--line); background: var(--surface); }
+  .card img { display: block; width: 100%; aspect-ratio: 1440 / 900; object-fit: cover; object-position: top; }
+  .card .n { position: absolute; top: 8px; left: 8px; min-width: 28px; height: 28px; padding: 0 8px; border-radius: 999px;
+    background: var(--accent); color: #06201d; font-weight: 700; font-size: 14px; display: flex; align-items: center; justify-content: center; }
+  .card .tag { position: absolute; top: 8px; right: 8px; padding: 2px 8px; border-radius: 999px; font-size: 11.5px; font-weight: 600; }
+  .tag.api { background: #12302c; color: var(--accent); border: 1px solid rgba(44,194,176,.4); }
+  .tag.web { background: #2d2412; color: var(--warn); border: 1px solid rgba(240,168,67,.4); }
+  .tag.local { background: #1d2223; color: var(--ink-2); border: 1px solid var(--line); }
+  .tag.confirm { background: #3a1d1f; color: var(--danger); border: 1px solid rgba(255,107,107,.4); }
+  .card h3 { margin: 10px 2px 2px; font-size: 15.5px; }
+  .card p { margin: 0 2px; color: var(--ink-2); font-size: 13px; }
+
+  .arrow { flex: none; width: 54px; display: flex; flex-direction: column; align-items: center; color: var(--accent); }
+  .arrow svg { width: 44px; height: 20px; }
+  .arrow small { color: var(--ink-3); font-size: 11px; margin-top: 2px; text-align: center; line-height: 1.2; }
+
+  .note { margin-left: 18px; align-self: stretch; display: flex; align-items: center; color: var(--ink-3); font-size: 13px; max-width: 260px; border-left: 1px dashed var(--line); padding-left: 16px; }
+
+  footer { margin-top: 30px; display: flex; justify-content: space-between; color: var(--ink-3); font-size: 13px; }
+</style>
+</head>
+<body>
+<header>
+  <div>
+    <h1><span class="logo">▤</span>YT Subscription Manager — app flow</h1>
+    <p>From first launch to every feature. Each lane starts from the Overview hub (sidebar navigation).</p>
+  </div>
+  <div class="legend">
+    <span><i class="dot" style="background:var(--accent)"></i>Official YouTube API</span>
+    <span><i class="dot" style="background:var(--warn)"></i>YouTube website (your tab)</span>
+    <span><i class="dot" style="background:var(--ink-2)"></i>Local only</span>
+    <span><i class="dot" style="background:var(--danger)"></i>Asks for confirmation</span>
+  </div>
+</header>
+
+<template id="arrow"><div class="arrow"><svg viewBox="0 0 44 20" fill="none"><path d="M2 10h36m0 0-7-7m7 7-7 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg><small></small></div></template>
+
+<div class="flow" id="flow"><div class="spine"></div></div>
+
+<footer>
+  <span>Screens captured from the built extension with demo data (video thumbnails are blank for demo videos).</span>
+  <span>Every removal is recorded in 🗑 Deleted items — restore where YouTube allows.</span>
+</footer>
+
+<script>
+  // [file, step, title, caption, tag?]
+  const lanes = [
+    { hub: true, ico: '🚀', name: 'Start', sub: 'install → connect', steps: [
+      ['01-welcome', 1, 'Welcome', 'Privacy promise, optional watch tracking, connect or demo', 'local'],
+      ['22-settings', 2, 'Connect account', 'Settings → Connect YouTube (read-only)', 'api'],
+      ['02-overview', 3, 'Overview (hub)', 'Stats, categories card, library, recent activity', 'local'],
+      ['23-light-mode', 4, 'Light / Dark', 'Theme in Settings → Appearance', 'local'],
+    ], labels: ['first run', 'sign in', 'theme'] },
+    { ico: '📋', name: 'Subscriptions', sub: 'browse & organize', steps: [
+      ['03-subscriptions-cards', 5, 'All subscriptions', 'Cards with search, filters, sort', 'api'],
+      ['04-subscriptions-list', 6, 'List view', 'Compact list, same filters', 'local'],
+      ['05-bulk-actions', 7, 'Bulk actions', 'Select many → category, favorite, export', 'local'],
+      ['06-channel-details', 8, 'Channel details', 'Watches per month, categories, notes', 'local'],
+    ], labels: ['toggle', 'select', 'open'] },
+    { ico: '🗂️', name: 'Organize', sub: 'categories & bells', steps: [
+      ['07-categories', 9, 'Your Categories', 'Every category as a card', 'local'],
+      ['08-auto-categorize', 10, 'Auto-categorize', 'Review suggestions, then apply', 'api'],
+      ['13-bell-audit', 11, 'Bell audit', 'Plan bells, apply on YouTube', 'local'],
+    ], labels: ['✨ sort', 'plan bells'], note: 'Categories are local — they never change your YouTube account.' },
+    { ico: '🧹', name: 'Insights & cleanup', sub: 'analyze → unsubscribe', steps: [
+      ['09-analytics', 12, 'Watch analytics', 'What you actually watch', 'local'],
+      ['10-cleanup', 13, 'Cleanup center', 'Never / inactive / no uploads…', 'local'],
+      ['11-review-assistant', 14, 'Review Assistant', 'Review every channel, confirm once', 'confirm'],
+      ['12-unsubscribed', 15, 'Unsubscribed', 'Undo: re-subscribe anytime', 'api'],
+    ], labels: ['find', 'select', 'done'] },
+    { ico: '📚', name: 'Playlists', sub: 'manage & combine', steps: [
+      ['14-playlists', 16, 'Playlists', 'Search, filter, categories, create', 'api'],
+      ['15-merge-playlists', 17, 'Merge / combine', 'Many playlists → one', 'confirm'],
+      ['16-playlist-detail', 18, 'Playlist detail', 'Shift-select, reorder, remove', 'api'],
+      ['17-add-move-dialog', 19, 'Copy / move', 'Safe move: add first, then remove', 'api'],
+      ['18-add-videos', 20, 'Add videos', 'Paste links or search', 'api'],
+    ], labels: ['select', 'open', 'act', '+ add'] },
+    { ico: '🔖', name: 'Watch Later', sub: 'live list → recover', steps: [
+      ['19-watch-later', 21, 'Watch Later', 'Read live from your YouTube tab', 'web'],
+      ['20-watch-later-remove', 22, 'Remove (confirm)', 'Matched by video ID, verified', 'confirm'],
+      ['21-deleted-items', 23, 'Deleted items', 'History of all removals + restore', 'local'],
+    ], labels: ['select', 'logged'], note: 'Removals from playlists, Watch Later, unsubscribes and deleted categories all land in Deleted items.' },
+  ];
+  const tagText = { api: 'API', web: 'Website', local: 'Local', confirm: 'Confirm' };
+  const flow = document.getElementById('flow');
+  const arrowTpl = document.getElementById('arrow');
+  for (const lane of lanes) {
+    const label = document.createElement('div');
+    label.className = 'lane-label' + (lane.hub ? ' hub' : '');
+    label.innerHTML = `<div class="ico">${lane.ico}</div><b>${lane.name}</b><small>${lane.sub}</small>`;
+    const row = document.createElement('div');
+    row.className = 'lane' + (lane.hub ? ' hub' : '');
+    lane.steps.forEach(([file, n, title, cap, tag], i) => {
+      if (i > 0) {
+        const a = arrowTpl.content.firstElementChild.cloneNode(true);
+        a.querySelector('small').textContent = lane.labels?.[i - 1] ?? '';
+        row.appendChild(a);
+      }
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.innerHTML = `<div class="frame"><img src="screenshots/${file}.png" alt="${title}"><span class="n">${n}</span>${tag ? `<span class="tag ${tag}">${tagText[tag]}</span>` : ''}</div><h3>${title}</h3><p>${cap}</p>`;
+      row.appendChild(card);
+    });
+    if (lane.note) {
+      const note = document.createElement('div');
+      note.className = 'note';
+      note.textContent = lane.note;
+      row.appendChild(note);
+    }
+    flow.append(label, row);
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Privacy Policy</title>
+<style>
+:root{--bg:#fff;--ink:#18181b;--ink2:#52525b;--line:#e4e4e8;--accent:#4f46e5}
+@media (prefers-color-scheme:dark){:root{--bg:#0f0f12;--ink:#ececf1;--ink2:#a8a8b3;--line:#2c2c33;--accent:#8b85ff}}
+body{background:var(--bg);color:var(--ink);font:15px/1.6 system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;max-width:760px;margin:0 auto;padding:32px 16px}
+h1{font-size:26px;margin:0 0 4px}h2{font-size:18px;margin:28px 0 8px}p,li{color:var(--ink2)}a{color:var(--accent)}
+table{border-collapse:collapse;width:100%;font-size:13px;display:block;overflow-x:auto}th,td{border:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}
+code{font-size:12px;background:rgba(127,127,127,.15);padding:1px 4px;border-radius:4px}
+</style></head><body>
+<h1>Privacy Policy — YT Subscription Manager</h1>
+<p><em>Effective: 4 October 2026</em></p>
+<p>YT Subscription Manager ("the extension") is a free Chrome extension that helps you organize, analyze and clean up your YouTube subscriptions. It is not affiliated with, endorsed by, or sponsored by YouTube or Google.</p>
+<p><strong>Short version:</strong> everything stays in your browser. We have no servers, we collect nothing, we sell nothing, and we show no ads.</p>
+<h2>1. What data the extension handles</h2>
+<table><thead><tr><th>Data</th><th>Where it comes from</th><th>Why</th><th>Where it is stored</th></tr></thead><tbody><tr><td>Your subscription list (channel ID, name, picture, subscription ID, subscribe date, upload count)</td><td>YouTube Data API, after you connect your account</td><td>To show and organize your subscriptions</td><td>Your browser only (IndexedDB)</td></tr><tr><td>Your own YouTube channel ID and name</td><td>YouTube Data API</td><td>To keep data from different accounts apart</td><td>Your browser only</td></tr><tr><td>Categories, favorites, Review Later, notes, bell plans</td><td>You</td><td>Organization features</td><td>Your browser only</td></tr><tr><td>Watch records: video ID, channel ID, date/time (<strong>only if you turn on watch tracking</strong>)</td><td>The page you are watching on youtube.com</td><td>Watch analytics and cleanup suggestions</td><td>Your browser only</td></tr><tr><td>Imported Google Takeout files (watch history, subscriptions)</td><td>Files you choose</td><td>Historical analytics / offline subscription list</td><td>Parsed in your browser; never uploaded</td></tr><tr><td>Last upload date of subscribed channels</td><td>Public YouTube channel feeds</td><td>"No recent uploads" cleanup filter</td><td>Your browser only</td></tr><tr><td>Your playlists and their videos (titles, channels, durations)</td><td>YouTube Data API</td><td>Playlist Manager</td><td>Your browser only (refreshed or deleted within 30 days)</td></tr><tr><td>Your Watch Later list (video IDs, titles, channels, durations)</td><td>Read from your own YouTube Watch Later page <strong>when you press "Refresh from YouTube"</strong>, or from a Takeout file you choose</td><td>Watch Later management</td><td>Your browser only</td></tr><tr><td>Unsubscribe history (channel, date, categories at the time)</td><td>Your confirmed actions</td><td>The Unsubscribed dashboard and re-subscribe</td><td>Your browser only</td></tr></tbody></table>
+<h2>2. What we never collect</h2>
+<ul><li>Passwords or Google credentials. Sign-in uses Google's official OAuth via Chrome. OAuth tokens are held by Chrome and are never stored, logged or transmitted by the extension except directly to Google's APIs.</li><li>Your email address.</li><li>Video titles from your history, search queries, comments, likes, or anything from websites other than youtube.com.</li><li>Any activity in incognito windows (the extension is disabled there).</li><li>Cookies or login sessions. Watch Later changes use your already-open, normally signed-in YouTube tab and YouTube's own buttons, only after you confirm.</li><li>Telemetry, analytics, crash reports or advertising identifiers. The extension contains no third-party analytics or ad code.</li></ul>
+<h2>3. How data is used and shared</h2>
+<p>Data is used <strong>only</strong> to provide the extension's features to you. It is <strong>never</strong> sold, shared with third parties, used for advertising, used to determine creditworthiness, or used for any purpose unrelated to the extension's single purpose.</p>
+<p>The extension communicates only with:</p>
+<ul><li><code>www.googleapis.com</code> / <code>oauth2.googleapis.com</code> (YouTube Data API and Google sign-in), using your authorization;</li><li><code>www.youtube.com</code> (public channel feeds for last-upload dates, and the watch-tracking content script).</li></ul>
+<p>There is no developer-operated server.</p>
+<h2>4. Google API Services and YouTube</h2>
+<p>The extension uses YouTube API Services. By using it you agree to the <a href="https://www.youtube.com/t/terms">YouTube Terms of Service</a>. Google's privacy policy: <a href="https://policies.google.com/privacy">https://policies.google.com/privacy</a>.</p>
+<p>The extension's use and transfer of information received from Google APIs adheres to the <a href="https://developers.google.com/terms/api-services-user-data-policy">Google API Services User Data Policy</a>, including the Limited Use requirements.</p>
+<ul><li><strong>Read-only by default</strong> (<code>youtube.readonly</code>). The permission to manage subscriptions (<code>youtube</code>) is requested only when you first confirm an unsubscribe or re-subscribe in the Review Assistant.</li><li>The extension changes your subscriptions <strong>only</strong> after you review the list of channels and explicitly confirm.</li><li>Data obtained from the YouTube API is refreshed or deleted at least every 30 days.</li></ul>
+<h2>5. Your controls</h2>
+<ul><li><strong>Watch tracking</strong> is off by default. You can turn it on or off, pause it, exclude channels, and set automatic deletion (90 days to forever) in Settings.</li><li><strong>Export / delete:</strong> Settings → Backup exports all your data as JSON. "Reset analytics" and "Reset everything" delete data from your browser immediately.</li><li><strong>Disconnect:</strong> Settings → Disconnect revokes the extension's Google access and deletes data obtained from YouTube. You can also revoke access at <a href="https://myaccount.google.com/permissions">https://myaccount.google.com/permissions</a>. When access is revoked, YouTube API data is deleted from the extension within 7 days (immediately when you use Disconnect).</li><li><strong>Uninstall:</strong> removing the extension deletes all its stored data from your browser.</li></ul>
+<h2>6. Security</h2>
+<p>Data stays in the browser's extension storage, isolated from websites. The extension loads no remote code, validates all imported files and API responses, and requests only the permissions it needs (<code>storage</code>, <code>identity</code>, <code>alarms</code>, and access to <code>https://www.youtube.com/*</code>).</p>
+<h2>7. Children</h2>
+<p>The extension is not directed at children under 13 and collects no personal information from anyone.</p>
+<h2>8. Changes</h2>
+<p>Material changes to this policy will be announced in the extension's release notes and reflected in the effective date above.</p>
+<h2>9. Contact</h2>
+<p>Questions or requests: open an issue on the project's repository or email the developer at the address listed on the Chrome Web Store page.</p>
+</body></html>
